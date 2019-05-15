@@ -4,18 +4,21 @@ $response = array();
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
 
-	if(isset($_POST['email']) && !empty($_POST['email'])
-	 and isset($_POST['password']) && ($_POST['password']!=="")
-	 and isset($_POST['name']) && !empty($_POST['name']) 
-	 and isset($_POST['mobile']) && !empty($_POST['mobile']) 
-	and isset($_POST['blood_group']) && !empty($_POST['blood_group']) 
-	and 
-	isset($_POST['latitude']) && !empty($_POST['latitude']) 
-	and isset($_POST['longitude']) && !empty($_POST['longitude']) 
-	and isset($_POST['postal_address']) && !empty($_POST['postal_address'])
-	and  isset($_POST['age']) && !empty($_POST['age']) 
-	and  isset($_POST['postal_address']) && !empty($_POST['postal_address'])
-	and  isset($_POST['image']) && !empty($_POST['image']))
+	if(
+		isset($_POST['voter_id']) && !empty($_POST['voter_id'])
+		and isset($_POST['email']) && !empty($_POST['email'])
+	 	and isset($_POST['password']) && ($_POST['password']!="")
+		and isset($_POST['name']) && !empty($_POST['name']) 
+		and isset($_POST['mobile']) && !empty($_POST['mobile']) 
+		and isset($_POST['blood_group']) && !empty($_POST['blood_group']) 
+		and isset($_POST['latitude']) && !empty($_POST['latitude']) 
+		and isset($_POST['longitude']) && !empty($_POST['longitude']) 
+		and isset($_POST['postal_address']) && !empty($_POST['postal_address'])
+		and isset($_POST['age']) && !empty($_POST['age']) 
+		and isset($_POST['gender']) && !empty($_POST['gender'])
+		and isset($_POST['image'])
+		
+		)
 	{
 		//echo "hiii shiv";
 
@@ -27,6 +30,9 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 	
 		file_put_contents($upload_path,base64_decode($image));
 
+		if($_POST['age']>18)
+		{
+
 		$db= new sign_up_operations();
 		// $x = $_POST['email'].".jpg";
 		// $imagename = $_FILES['lab_logo']['name'];//storing file name
@@ -34,6 +40,7 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 		// move_uploaded_file($tempimagename, "profile_pic/$x");
 	
 		$result = $db->CreateUser(
+			$_POST['voter_id'],
 			$_POST['email'],
 			$_POST['password'],
 			$_POST['name'],
@@ -67,13 +74,22 @@ if($_SERVER['REQUEST_METHOD']=='POST'){
 
 		}
 
+	}
+
+	else{
+
+		$response['error']=true;
+		$response['message']="You are under age to donate";
+
+	}
+
 
 	}
 	else
 	{
 		//echo "hii";
 		$response['error']=true;
-		$response['message']="required fields missing";
+		$response['message']="required fields are missing";
 	}
 
 }

@@ -10,7 +10,7 @@ class sign_up_operations{
 
 	}
 
-	function CreateUser($email,$pass,$name,$mobile,$blood_group,$latitude,$longitude,$postal_address,$age,$gender,$profile_pic)
+	function CreateUser($voter_id,$email,$pass,$name,$mobile,$blood_group,$latitude,$longitude,$postal_address,$age,$gender,$profile_pic)
 	{
 		if($this->isUserExist($email))
 		{
@@ -19,9 +19,9 @@ class sign_up_operations{
 		else
 		{
 		$password = md5($pass);
-		$query = "INSERT INTO `new_user`(`email`, `password`, `name`, `mobile`, 
+		$query = "INSERT INTO `new_user`(`voter_id`,`email`, `password`, `name`, `mobile`, 
 				`blood_group`, `latitude`, `longitude`, `postal_address`,`age`,`gender`,`profile_pic`) 
-		          VALUES ('$email','$password','$name','$mobile','$blood_group','$latitude','$longitude','$postal_address','$age','$gender','$profile_pic')";
+		          VALUES ('$voter_id','$email','$password','$name','$mobile','$blood_group','$latitude','$longitude','$postal_address','$age','$gender','$profile_pic')";
 
 		$run=mysqli_query($this->con,$query);
 		if($run==true)
